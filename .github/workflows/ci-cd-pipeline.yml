@@ -29,7 +29,9 @@ jobs:
   validation:
     needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment:
+      name: validation
+      url: ${{ secrets.VALIDATION_URL }}
     
     steps:
     - uses: actions/checkout@v2
@@ -44,3 +46,17 @@ jobs:
         cd val
         python -m unittest discover
 
+  deploy:
+    needs: validation
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ secrets.PRODUCTION_URL }}
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Deploy to Production
+      run: |
+        # Add your deployment commands here
