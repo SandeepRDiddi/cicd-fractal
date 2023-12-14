@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: validation
-      url: ${{ secrets.VALIDATION_URL }}
+      url: ${{ secrets.VAL_ENV }}
     
     steps:
     - uses: actions/checkout@v2
@@ -51,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: ${{ secrets.PRODUCTION_URL }}
+      url: ${{ secrets.PRD_ENV }}
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     steps:
